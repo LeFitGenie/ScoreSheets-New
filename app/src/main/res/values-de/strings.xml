@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ScoreSheets</string>
+
+    <string name="new_game">Neues Spiel</string>
+    <string name="saved_games">Gespeicherte Spiele</string>
+    <string name="players_range">%1$d–%2$d Spieler</string>
+    <string name="back">Zurück</string>
+    <string name="next_dealer">Nächster Geber</string>
+    <string name="dealer">Geber</string>
+    <string name="round_n">Runde %1$d</string>
+    <string name="total">Summe</string>
+    <string name="target_reached">Ziel erreicht</string>
+
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="clear">Leeren</string>
+    <string name="delete">Löschen</string>
+    <string name="start_game">Spiel starten</string>
+    <string name="add_player">Spieler hinzufügen</string>
+    <string name="player_name">Spielername</string>
+    <string name="remove_player">Spieler entfernen</string>
+    <string name="saved_names">Gespeicherte Namen</string>
+    <string name="forget_name">Namen vergessen</string>
+    <string name="selected_players">Spieler (%1$d/%2$d)</string>
+    <string name="min_players_hint">Mindestens %1$d Spieler nötig.</string>
+    <string name="delete_game_title">Spiel löschen?</string>
+    <string name="delete_game_message">Das Spiel und alle Punkte werden entfernt.</string>
+
+    <string name="game_rummy">Rommé</string>
+    <string name="game_sixty_six">Sechsundsechzig</string>
+    <string name="game_pirates">Piraten</string>
+    <string name="game_trick_bidding">Stiche ansagen</string>
+    <string name="game_pasch">Würfeln (Pasch)</string>
+    <string name="game_free">Freie Punkte</string>
+
+    <string name="field_points">Punkte</string>
+    <string name="field_bid">Ansage</string>
+    <string name="field_tricks">Stiche</string>
+    <string name="field_bonus">Bonus</string>
+    <string name="field_count">Anzahl</string>
+    <string name="toggle_sign">Vorzeichen wechseln</string>
+    <string name="double_score">Verdoppeln</string>
+    <string name="strike_out">Streichen (0)</string>
+    <string name="out_of_range">Erlaubter Bereich: %1$d bis %2$d</string>
+
+    <string name="pasch_ones">Einser</string>
+    <string name="pasch_twos">Zweier</string>
+    <string name="pasch_threes">Dreier</string>
+    <string name="pasch_fours">Vierer</string>
+    <string name="pasch_fives">Fünfer</string>
+    <string name="pasch_sixes">Sechser</string>
+    <string name="pasch_upper_bonus">Bonus (ab 63)</string>
+    <string name="pasch_three_kind">Dreierpasch</string>
+    <string name="pasch_four_kind">Viererpasch</string>
+    <string name="pasch_full_house">Full House</string>
+    <string name="pasch_small_straight">Kleine Straße</string>
+    <string name="pasch_large_straight">Große Straße</string>
+    <string name="pasch_five_kind">Fünferpasch</string>
+    <string name="pasch_chance">Chance</string>
+    <string name="pasch_extra_bonus">Zusatz-Fünferpasch (×100)</string>
+</resources>

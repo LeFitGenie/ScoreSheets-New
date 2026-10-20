@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ScoreSheets</string>
+
+    <string name="new_game">New game</string>
+    <string name="saved_games">Saved games</string>
+    <string name="players_range">%1$d–%2$d players</string>
+    <string name="back">Back</string>
+    <string name="next_dealer">Next dealer</string>
+    <string name="dealer">Dealer</string>
+    <string name="round_n">Round %1$d</string>
+    <string name="total">Total</string>
+    <string name="target_reached">Target reached</string>
+
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
+    <string name="delete">Delete</string>
+    <string name="start_game">Start game</string>
+    <string name="add_player">Add player</string>
+    <string name="player_name">Player name</string>
+    <string name="remove_player">Remove player</string>
+    <string name="saved_names">Saved names</string>
+    <string name="forget_name">Forget name</string>
+    <string name="selected_players">Players (%1$d/%2$d)</string>
+    <string name="min_players_hint">At least %1$d players are needed.</string>
+    <string name="delete_game_title">Delete game?</string>
+    <string name="delete_game_message">This game and all its scores will be removed.</string>
+
+    <string name="game_rummy">Rummy</string>
+    <string name="game_sixty_six">Sixty-Six</string>
+    <string name="game_pirates">Pirates</string>
+    <string name="game_trick_bidding">Trick bidding</string>
+    <string name="game_pasch">Dice (Pasch)</string>
+    <string name="game_free">Free points</string>
+
+    <string name="field_points">Points</string>
+    <string name="field_bid">Bid</string>
+    <string name="field_tricks">Tricks</string>
+    <string name="field_bonus">Bonus</string>
+    <string name="field_count">Count</string>
+    <string name="toggle_sign">Toggle sign</string>
+    <string name="double_score">Double</string>
+    <string name="strike_out">Strike (0)</string>
+    <string name="out_of_range">Allowed range: %1$d to %2$d</string>
+
+    <string name="pasch_ones">Ones</string>
+    <string name="pasch_twos">Twos</string>
+    <string name="pasch_threes">Threes</string>
+    <string name="pasch_fours">Fours</string>
+    <string name="pasch_fives">Fives</string>
+    <string name="pasch_sixes">Sixes</string>
+    <string name="pasch_upper_bonus">Bonus (63+)</string>
+    <string name="pasch_three_kind">Three of a kind</string>
+    <string name="pasch_four_kind">Four of a kind</string>
+    <string name="pasch_full_house">Full house</string>
+    <string name="pasch_small_straight">Small straight</string>
+    <string name="pasch_large_straight">Large straight</string>
+    <string name="pasch_five_kind">Five of a kind</string>
+    <string name="pasch_chance">Chance</string>
+    <string name="pasch_extra_bonus">Extra five (×100)</string>
+</resources>

@@ -1,5 +1,6 @@
 package de.lefitgenie.scoresheets.game
 
+import de.lefitgenie.scoresheets.R
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 

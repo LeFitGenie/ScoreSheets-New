@@ -46,7 +46,7 @@ interface GameRules {
         return sum
     }
 
-    fun fieldType(row: Int): Integer = FieldType.DEFAULT
+    fun fieldType(row: Int): FieldType = FieldType.DEFAULT
 
     fun allowNegative(field: Int): Boolean = false
 
@@ -149,7 +149,7 @@ object PaschRules : GameRules {
 
     override fun rowCount(playerCount: Int, entries: Entries): Int = PaschCategory.entries.size
 
-    override fun isEditable(row: Int): Int =
+    override fun fieldType(row: Int): FieldType =
     if (paschCategory(row) != PaschCategory.UPPER_BONUS)
         FieldType.DEFAULT
     else

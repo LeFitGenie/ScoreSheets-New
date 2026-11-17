@@ -16,32 +16,32 @@ enum class GameType(
     RUMMY(
         "rummy", 2, 8,
         R.string.game_rummy,
-        R.drawable.ic_rummy
+        R.drawable.ic_playing_cards
     ),
     SIXTY_SIX(
         "sixty_six", 2, 4,
         R.string.game_sixty_six,
-        R.drawable.ic_sixty_six
+        R.drawable.ic_playing_cards
     ),
     PIRATES(
         "pirates", 2, 8,
         R.string.game_pirates,
-        R.drawable.ic_pirates
+        R.drawable.ic_pirate
     ),
     TRICK_BIDDING(
         "trick_bidding", 3, 6,
         R.string.game_trick_bidding,
-        R.drawable.ic_trick_bidding
+        R.drawable.ic_wizard_hat
     ),
     PASCH(
         "pasch", 1, 8,
         R.string.game_pasch,
-        R.drawable.ic_pasch
+        R.drawable.ic_dice
     ),
     FREE(
         "free", 1, 8,
         R.string.game_free,
-        R.drawable.ic_free
+        R.drawable.ic_meeple
     );
 
     companion object {

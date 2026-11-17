@@ -132,7 +132,7 @@ fun SheetScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(current?.let { stringResource(it.type.titleRes()) }.orEmpty()) },
+                title = { Text(current?.let { stringResource(it.type.titleRes) }.orEmpty()) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
@@ -311,13 +311,13 @@ private fun RowScope.ScoreCell(
 ) {
     val score = rules.rowScore(row, player, playerCount, entries)
     val detail = cellDetail(rules, row, player, entries)
-    val editable = rules.isEditable(row)
+    val fieldType = rules.fieldType(row)
     Box(
         modifier = Modifier
             .weight(1f)
             .fillMaxHeight()
             .border(CellBorder())
-            .then(if (editable) Modifier.clickable(onClick = onClick) else Modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))),
+            .then(if (fieldType == FieldType.DEFAULT) Modifier.clickable(onClick = onClick) else Modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))),
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -414,7 +414,7 @@ private fun EditDialog(
             val value = text.toIntOrNull()
             val min = if (rules.allowNegative(field)) Int.MIN_VALUE else 0
             val max = rules.maxValue(row, field) ?: Int.MAX_VALUE
-            value != null && value in min..max
+            value != null && value in min..max && rules.isValid(row, field)
         }
     }
 

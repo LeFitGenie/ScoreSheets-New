@@ -107,7 +107,7 @@ fun NewGameScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(type.titleRes())) },
+                title = { Text(stringResource(type.titleRes)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))

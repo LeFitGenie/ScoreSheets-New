@@ -91,8 +91,8 @@ class GameRulesTest {
 
     @Test
     fun pasch_bonusRowIsNotEditable() {
-        assertFalse(PaschRules.isEditable(PaschCategory.UPPER_BONUS.ordinal))
-        assertTrue(PaschRules.isEditable(PaschCategory.CHANCE.ordinal))
+        assertFalse(PaschRules.fieldType(PaschCategory.UPPER_BONUS.ordinal) != FieldType.DEFAULT)
+        assertTrue(PaschRules.fieldType(PaschCategory.CHANCE.ordinal) == FieldType.DEFAULT)
     }
 
     @Test

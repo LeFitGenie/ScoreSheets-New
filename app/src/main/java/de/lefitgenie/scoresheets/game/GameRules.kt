@@ -13,6 +13,10 @@ enum class PaschCategory {
     EXTRA_BONUS,
 }
 
+enum class FieldType {
+    DEFAULT, READONLY, SPECIAL
+}
+
 /**
  * Regeln und Berechnung eines Spiels. Rein funktional und ohne Android-Abhängigkeit,
  * damit alles mit normalen JVM-Tests geprüft werden kann.
@@ -42,11 +46,13 @@ interface GameRules {
         return sum
     }
 
-    fun isEditable(row: Int): Boolean = true
+    fun fieldType(row: Int): Integer = FieldType.DEFAULT
 
     fun allowNegative(field: Int): Boolean = false
 
-    fun maxValue(row: Int, field: Int): Int? = null
+    fun isValid(row: Int, field: Int): Boolean = true
+	
+	fun maxValue(row: Int, field: Int): Int? = null
 
     fun paschCategory(row: Int): PaschCategory? = null
 }
@@ -143,7 +149,11 @@ object PaschRules : GameRules {
 
     override fun rowCount(playerCount: Int, entries: Entries): Int = PaschCategory.entries.size
 
-    override fun isEditable(row: Int): Boolean = paschCategory(row) != PaschCategory.UPPER_BONUS
+    override fun isEditable(row: Int): Int =
+    if (paschCategory(row) != PaschCategory.UPPER_BONUS)
+        FieldType.DEFAULT
+    else
+        FieldType.READONLY
 
     override fun rowScore(row: Int, player: Int, playerCount: Int, entries: Entries): Int? =
         when (paschCategory(row)) {
@@ -164,6 +174,12 @@ object PaschRules : GameRules {
             complete -> 0
             else -> null
         }
+    }
+	
+	override fun isValid(row: Int, field: Int): Boolean = when (paschCategory(row)) {
+        PaschCategory.ONES, PaschCategory.TWOS, PaschCategory.THREES,
+        PaschCategory.FOURS, PaschCategory.FIVES, PaschCategory.SIXES -> (field % (row + 1) == 0)
+        else -> true
     }
 
     override fun maxValue(row: Int, field: Int): Int? = when (paschCategory(row)) {

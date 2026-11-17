@@ -7,16 +7,6 @@ import de.lefitgenie.scoresheets.game.GameType
 import de.lefitgenie.scoresheets.game.PaschCategory
 
 @StringRes
-fun GameType.titleRes(): Int = when (this) {
-    GameType.RUMMY -> R.string.game_rummy
-    GameType.SIXTY_SIX -> R.string.game_sixty_six
-    GameType.PIRATES -> R.string.game_pirates
-    GameType.TRICK_BIDDING -> R.string.game_trick_bidding
-    GameType.PASCH -> R.string.game_pasch
-    GameType.FREE -> R.string.game_free
-}
-
-@StringRes
 fun FieldKind.labelRes(): Int = when (this) {
     FieldKind.SCORE -> R.string.field_points
     FieldKind.BID -> R.string.field_bid

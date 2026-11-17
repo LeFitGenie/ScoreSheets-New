@@ -31,6 +31,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -82,21 +87,50 @@ fun HomeScreen(
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
-            items(GameType.entries) { type ->
-                Card(onClick = { onNewGame(type) }, modifier = Modifier.fillMaxWidth()) {
-                    Column(Modifier.padding(16.dp)) {
-                        Text(stringResource(type.titleRes()), style = MaterialTheme.typography.titleMedium)
-                        Text(
-                            text = stringResource(
-                                R.string.players_range,
-                                type.minPlayers,
-                                type.maxPlayers,
-                            ),
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
-                }
-            }
+			items(GameType.entries) { type ->
+				Card(
+					onClick = { onNewGame(type) },
+					modifier = Modifier.fillMaxWidth()
+				) {
+					Row(
+						modifier = Modifier
+							.fillMaxWidth()
+							.padding(16.dp),
+						verticalAlignment = Alignment.CenterVertically
+					) {
+						// Icon-Spalte
+						Box(
+							modifier = Modifier.width(56.dp),
+							contentAlignment = Alignment.Center
+						) {
+							Image(
+								painter = painterResource(type.iconRes),
+								contentDescription = null,
+								modifier = Modifier.size(32.dp)
+							)
+						}
+
+						Spacer(modifier = Modifier.width(12.dp))
+
+						// Text-Spalte
+						Column {
+							Text(
+								stringResource(type.titleRes),
+								style = MaterialTheme.typography.titleMedium
+							)
+
+							Text(
+								text = stringResource(
+									R.string.players_range,
+									type.minPlayers,
+									type.maxPlayers,
+								),
+								style = MaterialTheme.typography.bodySmall,
+							)
+						}
+					}
+				}
+			}
             if (sessions.isNotEmpty()) {
                 item {
                     Text(
@@ -113,7 +147,7 @@ fun HomeScreen(
                         ) {
                             Column(Modifier.weight(1f)) {
                                 Text(
-                                    text = stringResource(GameType.fromId(session.gameType).titleRes()),
+                                    text = stringResource(GameType.fromId(session.gameType).titleRes),
                                     style = MaterialTheme.typography.titleMedium,
                                 )
                                 Text(

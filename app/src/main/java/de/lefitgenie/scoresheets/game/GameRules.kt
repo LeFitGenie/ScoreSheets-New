@@ -50,7 +50,7 @@ interface GameRules {
 
     fun allowNegative(field: Int): Boolean = false
 
-    fun isValid(row: Int, value: Int): Boolean = true
+    fun isValid(row: Int, value: Int?): Boolean = true
 	
 	fun maxValue(row: Int, field: Int): Int? = null
 

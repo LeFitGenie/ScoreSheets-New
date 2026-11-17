@@ -415,7 +415,7 @@ private fun EditDialog(
             val value = text.toIntOrNull()
             val min = if (rules.allowNegative(field)) Int.MIN_VALUE else 0
             val max = rules.maxValue(row, field) ?: Int.MAX_VALUE
-            value != null && value in min..max && rules.isValid(row, field)
+            value != null && value in min..max && rules.isValid(row, value)
         }
     }
 

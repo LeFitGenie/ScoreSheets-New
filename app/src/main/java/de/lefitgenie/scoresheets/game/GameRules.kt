@@ -50,7 +50,7 @@ interface GameRules {
 
     fun allowNegative(field: Int): Boolean = false
 
-    fun isValid(row: Int, field: Int): Boolean = true
+    fun isValid(row: Int, value: Int): Boolean = true
 	
 	fun maxValue(row: Int, field: Int): Int? = null
 
@@ -176,12 +176,16 @@ object PaschRules : GameRules {
         }
     }
 	
-	override fun isValid(row: Int, field: Int): Boolean = when (paschCategory(row)) {
-        PaschCategory.ONES, PaschCategory.TWOS, PaschCategory.THREES,
-        PaschCategory.FOURS, PaschCategory.FIVES, PaschCategory.SIXES -> (field % (row + 1) == 0)
-        else -> true
-    }
+    override fun isValid(row: Int, value: Int?): Boolean {
+        if (value == null) return false
 
+        return when (paschCategory(row)) {
+            PaschCategory.ONES, PaschCategory.TWOS, PaschCategory.THREES,
+            PaschCategory.FOURS, PaschCategory.FIVES, PaschCategory.SIXES -> value % (row + 1) == 0
+            else -> true
+        }
+    }
+			 
     override fun maxValue(row: Int, field: Int): Int? = when (paschCategory(row)) {
         PaschCategory.ONES, PaschCategory.TWOS, PaschCategory.THREES,
         PaschCategory.FOURS, PaschCategory.FIVES, PaschCategory.SIXES -> 5 * (row + 1)

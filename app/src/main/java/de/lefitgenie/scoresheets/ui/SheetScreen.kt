@@ -361,6 +361,7 @@ private fun RowScope.ScoreCell(
     }
 }
 
+@Composable
 private fun RowScope.SumCell(value: Int) {
     Box(
         modifier = Modifier

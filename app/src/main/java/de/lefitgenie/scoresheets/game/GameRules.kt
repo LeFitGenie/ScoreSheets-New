@@ -162,7 +162,7 @@ object PaschRules : GameRules {
             else -> entries[row, 0, player]
         }
         
-    fun upperTotal(player: Int, entries: List<ScoreEntry>): Int {
+    fun upperTotal(player: Int, entries: Entries): Int {
     return (PaschCategory.ONES.ordinal..PaschCategory.SIXES.ordinal)
         .sumOf { row ->
             entries.firstOrNull {

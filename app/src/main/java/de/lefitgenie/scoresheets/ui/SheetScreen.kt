@@ -205,8 +205,35 @@ private fun SheetTable(
                 HeaderRow(state)
                 LazyColumn(Modifier.weight(1f)) {
                     items(rowCount) { row ->
+
+                        // Zusätzliche Zwischensumme vor UPPER_BONUS
+                        if (
+                            state.type == GameType.PASCH &&
+                            rules.paschCategory(row) == PaschCategory.UPPER_BONUS
+                        ) {
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(RowHeight)
+                            ) {
+                                LabelCell(R.string.subtotal)
+
+                                for (player in 0 until playerCount) {
+                                    SumCell(
+                                        value = PaschRules.upperTotal(
+                                            player = player,
+                                            playerCount = playerCount,
+                                            entries = state.entries,
+                                        )
+                                    )
+                                }
+                            }
+                        }
+
+                        // Normale Spielzeile
                         Row(Modifier.fillMaxWidth().height(RowHeight)) {
                             LabelCell(rowLabel(rules, row))
+
                             for (player in 0 until playerCount) {
                                 ScoreCell(
                                     rules = rules,
@@ -331,6 +358,25 @@ private fun RowScope.ScoreCell(
                 textAlign = TextAlign.Center,
             )
         }
+    }
+}
+
+private fun RowScope.SumCell(value: Int) {
+    Box(
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxHeight()
+            .border(CellBorder())
+            .background(
+                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = value.toString(),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 

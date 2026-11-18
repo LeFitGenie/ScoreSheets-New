@@ -7,7 +7,7 @@ enum class FieldKind { SCORE, BID, TRICKS, BONUS, COUNT }
 
 /** Zeilen des Pasch-Blocks, in der Reihenfolge wie auf dem Papierblock. */
 enum class PaschCategory {
-    ONES, TWOS, THREES, FOURS, FIVES, SIXES,
+    ONES, TWOS, THREES, FOURS, FIVES, SIXES, 
     UPPER_BONUS,
     THREE_KIND, FOUR_KIND, FULL_HOUSE, SMALL_STRAIGHT, LARGE_STRAIGHT, FIVE_KIND, CHANCE,
     EXTRA_BONUS,
@@ -161,6 +161,15 @@ object PaschRules : GameRules {
             PaschCategory.EXTRA_BONUS -> entries[row, 0, player]?.let { it * EXTRA_BONUS_VALUE }
             else -> entries[row, 0, player]
         }
+        
+    fun upperTotal(player: Int, entries: List<ScoreEntry>): Int {
+    return (PaschCategory.ONES.ordinal..PaschCategory.SIXES.ordinal)
+        .sumOf { row ->
+            entries.firstOrNull {
+                it.row == row && it.player == player
+            }?.value ?: 0
+        }
+    }        
 
     private fun upperBonus(player: Int, entries: Entries): Int? {
         var sum = 0

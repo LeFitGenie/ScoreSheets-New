@@ -43,13 +43,15 @@
     <string name="double_score">Verdoppeln</string>
     <string name="strike_out">Streichen (0)</string>
     <string name="out_of_range">Erlaubter Bereich: %1$d bis %2$d</string>
+    <string name="invalid">Ungültiger Wert</string>
+    <string name="subtotal">Zwischensumme</string>
 
     <string name="pasch_ones">Einser</string>
     <string name="pasch_twos">Zweier</string>
     <string name="pasch_threes">Dreier</string>
     <string name="pasch_fours">Vierer</string>
     <string name="pasch_fives">Fünfer</string>
-    <string name="pasch_sixes">Sechser</string>
+    <string name="pasch_sixes">Sechser</string>    
     <string name="pasch_upper_bonus">Bonus (ab 63)</string>
     <string name="pasch_three_kind">Dreierpasch</string>
     <string name="pasch_four_kind">Viererpasch</string>

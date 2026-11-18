@@ -43,13 +43,15 @@
     <string name="double_score">Double</string>
     <string name="strike_out">Strike (0)</string>
     <string name="out_of_range">Allowed range: %1$d to %2$d</string>
+    <string name="invalid">Invalid value</string>
+    <string name="subtotal">SubTotal</string>
 
     <string name="pasch_ones">Ones</string>
     <string name="pasch_twos">Twos</string>
     <string name="pasch_threes">Threes</string>
     <string name="pasch_fours">Fours</string>
     <string name="pasch_fives">Fives</string>
-    <string name="pasch_sixes">Sixes</string>
+    <string name="pasch_sixes">Sixes</string>    
     <string name="pasch_upper_bonus">Bonus (63+)</string>
     <string name="pasch_three_kind">Three of a kind</string>
     <string name="pasch_four_kind">Four of a kind</string>

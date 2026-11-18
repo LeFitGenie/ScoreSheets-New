@@ -223,7 +223,7 @@ private fun SheetTable(
                                     .fillMaxWidth()
                                     .height(RowHeight)
                             ) {
-                                LabelCell(R.string.subtotal)
+                                LabelCell(stringResource(R.string.subtotal))
 
                                 for (player in 0 until playerCount) {
                                     SumCell(

@@ -38,6 +38,21 @@ interface GameRules {
     /** Punkte einer Zeile für einen Spieler, oder null solange die Zeile unvollständig ist. */
     fun rowScore(row: Int, player: Int, playerCount: Int, entries: Entries): Int?
 
+    fun subtotal(
+        player: Int,
+        playerCount: Int,
+        entries: Entries,
+        rows: List<Int>,
+    ): Int? {
+        var sum = 0
+
+        for (row in rows) {
+            sum += rowScore(row, player, playerCount, entries) ?: 0
+        }
+
+        return sum
+    }        
+        
     fun total(player: Int, playerCount: Int, entries: Entries): Int {
         var sum = 0
         for (row in 0 until rowCount(playerCount, entries)) {
@@ -161,16 +176,7 @@ object PaschRules : GameRules {
             PaschCategory.EXTRA_BONUS -> entries[row, 0, player]?.let { it * EXTRA_BONUS_VALUE }
             else -> entries[row, 0, player]
         }
-        
-    fun upperTotal(player: Int, entries: Entries): Int {
-    return (PaschCategory.ONES.ordinal..PaschCategory.SIXES.ordinal)
-        .sumOf { row ->
-            entries.firstOrNull {
-                it.row == row && it.player == player
-            }?.value ?: 0
-        }
-    }        
-
+            
     private fun upperBonus(player: Int, entries: Entries): Int? {
         var sum = 0
         var complete = true

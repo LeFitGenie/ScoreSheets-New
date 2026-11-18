@@ -68,6 +68,7 @@ import de.lefitgenie.scoresheets.R
 import de.lefitgenie.scoresheets.ScoreSheetsApp
 import de.lefitgenie.scoresheets.game.Entries
 import de.lefitgenie.scoresheets.game.GameRules
+import de.lefitgenie.scoresheets.game.PaschCategory
 import de.lefitgenie.scoresheets.game.GameType
 import de.lefitgenie.scoresheets.game.FieldType
 import de.lefitgenie.scoresheets.game.leaders
@@ -197,6 +198,12 @@ private fun SheetTable(
     val rowCount = rules.rowCount(playerCount, state.entries)
     val totals = List(playerCount) { rules.total(it, playerCount, state.entries) }
     val winners = leaders(totals, rules.lowestWins, hasEntries = !state.entries.isEmpty)
+    
+    val subtotalRows = if (state.type == GameType.PASCH) {
+        (PaschCategory.ONES.ordinal..PaschCategory.SIXES.ordinal).toList()
+    } else {
+        emptyList()
+    }
 
     BoxWithConstraints(modifier) {
         val contentWidth = maxOf(maxWidth, LabelWidth + MinCellWidth * playerCount)
@@ -208,7 +215,7 @@ private fun SheetTable(
 
                         // Zusätzliche Zwischensumme vor UPPER_BONUS
                         if (
-                            state.type == GameType.PASCH &&
+                            subtotalRows.isNotEmpty() &&
                             rules.paschCategory(row) == PaschCategory.UPPER_BONUS
                         ) {
                             Row(
@@ -220,11 +227,12 @@ private fun SheetTable(
 
                                 for (player in 0 until playerCount) {
                                     SumCell(
-                                        value = PaschRules.upperTotal(
+                                        value = rules.subtotal(
                                             player = player,
                                             playerCount = playerCount,
                                             entries = state.entries,
-                                        )
+                                            rows = subtotalRows,
+                                        ) ?: 0
                                     )
                                 }
                             }

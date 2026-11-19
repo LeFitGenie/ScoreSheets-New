@@ -68,6 +68,7 @@ import de.lefitgenie.scoresheets.R
 import de.lefitgenie.scoresheets.ScoreSheetsApp
 import de.lefitgenie.scoresheets.game.Entries
 import de.lefitgenie.scoresheets.game.GameRules
+import de.lefitgenie.scoresheets.game.PaschCategory
 import de.lefitgenie.scoresheets.game.GameType
 import de.lefitgenie.scoresheets.game.FieldType
 import de.lefitgenie.scoresheets.game.leaders
@@ -197,6 +198,12 @@ private fun SheetTable(
     val rowCount = rules.rowCount(playerCount, state.entries)
     val totals = List(playerCount) { rules.total(it, playerCount, state.entries) }
     val winners = leaders(totals, rules.lowestWins, hasEntries = !state.entries.isEmpty)
+    
+    val subtotalRows = if (state.type == GameType.PASCH) {
+        (PaschCategory.ONES.ordinal..PaschCategory.SIXES.ordinal).toList()
+    } else {
+        emptyList()
+    }
 
     BoxWithConstraints(modifier) {
         val contentWidth = maxOf(maxWidth, LabelWidth + MinCellWidth * playerCount)
@@ -205,8 +212,36 @@ private fun SheetTable(
                 HeaderRow(state)
                 LazyColumn(Modifier.weight(1f)) {
                     items(rowCount) { row ->
+
+                        // Zusätzliche Zwischensumme vor UPPER_BONUS
+                        if (
+                            subtotalRows.isNotEmpty() &&
+                            rules.paschCategory(row) == PaschCategory.UPPER_BONUS
+                        ) {
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(RowHeight)
+                            ) {
+                                LabelCell(stringResource(R.string.subtotal))
+
+                                for (player in 0 until playerCount) {
+                                    SumCell(
+                                        value = rules.subtotal(
+                                            player = player,
+                                            playerCount = playerCount,
+                                            entries = state.entries,
+                                            rows = subtotalRows,
+                                        ) ?: 0
+                                    )
+                                }
+                            }
+                        }
+
+                        // Normale Spielzeile
                         Row(Modifier.fillMaxWidth().height(RowHeight)) {
                             LabelCell(rowLabel(rules, row))
+
                             for (player in 0 until playerCount) {
                                 ScoreCell(
                                     rules = rules,
@@ -331,6 +366,26 @@ private fun RowScope.ScoreCell(
                 textAlign = TextAlign.Center,
             )
         }
+    }
+}
+
+@Composable
+private fun RowScope.SumCell(value: Int) {
+    Box(
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxHeight()
+            .border(CellBorder())
+            .background(
+                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = value.toString(),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 

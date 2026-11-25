@@ -519,7 +519,31 @@ private fun EditDialog(
                     }) { Text("×2  " + stringResource(R.string.double_score)) }
                 }
                 if (rules.type == GameType.PASCH) {
-                    TextButton(onClick = { texts[0] = "0" }) { Text(stringResource(R.string.strike_out)) }
+                    if (rules.fieldType(row) == FieldType.SPECIAL) {
+                        if (texts[0] == "0" || texts[0].isEmpty()) {
+                            TextButton(
+                                onClick = {
+                                    texts[0] = rules.maxValue(row, 0)?.toString().orEmpty()
+                                }
+                            ) {
+                                Text(
+                                    "${stringResource(R.string.default_value)} (${rules.maxValue(row, 0)})"
+                                )
+                            }
+                        } else {
+                            TextButton(
+                                onClick = { texts[0] = "0" }
+                            ) {
+                                Text(stringResource(R.string.strike_out))
+                            }
+                        }
+                    } else {
+                        TextButton(
+                            onClick = { texts[0] = "0" }
+                        ) {
+                            Text(stringResource(R.string.strike_out))
+                        }
+                    }
                 }
             }
         },

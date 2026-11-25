@@ -24,6 +24,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -348,23 +350,44 @@ private fun RowScope.ScoreCell(
     val score = rules.rowScore(row, player, playerCount, entries)
     val detail = cellDetail(rules, row, player, entries)
     val fieldType = rules.fieldType(row)
+
     Box(
         modifier = Modifier
             .weight(1f)
             .fillMaxHeight()
             .border(CellBorder())
-            .then(if (fieldType == FieldType.DEFAULT) Modifier.clickable(onClick = onClick) else Modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))),
+            .then(
+                if (fieldType != FieldType.READONLY)
+                    Modifier.clickable(onClick = onClick)
+                else
+                    Modifier.background(
+                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+                    )
+            ),
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             if (detail != null) {
-                Text(detail, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
+                Text(
+                    detail,
+                    style = MaterialTheme.typography.labelSmall,
+                    textAlign = TextAlign.Center
+                )
             }
-            Text(
-                text = score?.toString().orEmpty(),
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center,
-            )
+
+            if (rules.type == GameType.PASCH && score == 0) {
+                Image(
+                    painter = painterResource(R.drawable.ic_strike_out),
+                    contentDescription = stringResource(R.string.strike_out),
+                    modifier = Modifier.size(26.dp)
+                )
+            } else {
+                Text(
+                    text = score?.toString().orEmpty(),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     }
 }
@@ -460,7 +483,7 @@ private fun EditDialog(
     }
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
-
+    
     // Pro Feld: gültig, wenn leer oder eine Zahl im erlaubten Bereich.
     val valid = rules.fields.indices.map { field ->
         val text = texts[field]
@@ -474,6 +497,10 @@ private fun EditDialog(
         }
     }
 
+    if(rules.fieldType(row) == FieldType.SPECIAL && rules.type == GameType.PASCH && texts[0].isNullOrEmpty()) {
+        texts[0] = rules.maxValue(row, 0)?.toString().orEmpty()
+    }
+    
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
@@ -488,7 +515,8 @@ private fun EditDialog(
                             onValueChange = { texts[field] = sanitize(it, allowNegative) },
                             label = { Text(stringResource(kind.labelRes())) },
                             singleLine = true,
-                            isError = !valid[field],
+                            readOnly = rules.fieldType(row) == FieldType.SPECIAL,
+                            isError = !valid[field],                                
                             supportingText = if (!valid[field] && max != null) {
                                 { Text(stringResource(R.string.out_of_range, if (allowNegative) Int.MIN_VALUE else 0, max)) }
                             } else {
@@ -514,7 +542,29 @@ private fun EditDialog(
                     }) { Text("×2  " + stringResource(R.string.double_score)) }
                 }
                 if (rules.type == GameType.PASCH) {
-                    TextButton(onClick = { texts[0] = "0" }) { Text(stringResource(R.string.strike_out)) }
+                    if (rules.fieldType(row) == FieldType.SPECIAL) {
+                        if (texts[0] == "0" || texts[0].isEmpty()) {
+                            TextButton(
+                                onClick = {
+                                    texts[0] = rules.maxValue(row, 0)?.toString().orEmpty()
+                                }
+                            ) {
+                                Text(stringResource(R.string.default_value, rules.maxValue(row, 0) ?: 0))
+                            }
+                        } else {
+                            TextButton(
+                                onClick = { texts[0] = "0" }
+                            ) {
+                                Text(stringResource(R.string.strike_out))
+                            }
+                        }
+                    } else {
+                        TextButton(
+                            onClick = { texts[0] = "0" }
+                        ) {
+                            Text(stringResource(R.string.strike_out))
+                        }
+                    }
                 }
             }
         },

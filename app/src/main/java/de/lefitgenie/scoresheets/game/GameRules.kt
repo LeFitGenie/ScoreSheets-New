@@ -165,10 +165,16 @@ object PaschRules : GameRules {
     override fun rowCount(playerCount: Int, entries: Entries): Int = PaschCategory.entries.size
 
     override fun fieldType(row: Int): FieldType =
-    if (paschCategory(row) != PaschCategory.UPPER_BONUS)
-        FieldType.DEFAULT
-    else
-        FieldType.READONLY
+        when (paschCategory(row)) {
+            PaschCategory.UPPER_BONUS -> FieldType.READONLY
+
+            PaschCategory.FULL_HOUSE,
+            PaschCategory.SMALL_STRAIGHT,
+            PaschCategory.LARGE_STRAIGHT,
+            PaschCategory.FIVE_KIND -> FieldType.SPECIAL
+
+            else -> FieldType.DEFAULT
+        }
 
     override fun rowScore(row: Int, player: Int, playerCount: Int, entries: Entries): Int? =
         when (paschCategory(row)) {

@@ -42,6 +42,7 @@
     <string name="toggle_sign">Toggle sign</string>
     <string name="double_score">Double</string>
     <string name="strike_out">Strike (0)</string>
+    <string name="default_value">Default (%1d)</string>
     <string name="out_of_range">Allowed range: %1$d to %2$d</string>
     <string name="invalid">Invalid value</string>
     <string name="subtotal">SubTotal</string>

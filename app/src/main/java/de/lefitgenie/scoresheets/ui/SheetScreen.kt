@@ -348,23 +348,44 @@ private fun RowScope.ScoreCell(
     val score = rules.rowScore(row, player, playerCount, entries)
     val detail = cellDetail(rules, row, player, entries)
     val fieldType = rules.fieldType(row)
+
     Box(
         modifier = Modifier
             .weight(1f)
             .fillMaxHeight()
             .border(CellBorder())
-            .then(if (fieldType != FieldType.READONLY) Modifier.clickable(onClick = onClick) else Modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))),
+            .then(
+                if (fieldType != FieldType.READONLY)
+                    Modifier.clickable(onClick = onClick)
+                else
+                    Modifier.background(
+                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+                    )
+            ),
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             if (detail != null) {
-                Text(detail, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
+                Text(
+                    detail,
+                    style = MaterialTheme.typography.labelSmall,
+                    textAlign = TextAlign.Center
+                )
             }
-            Text(
-                text = score?.toString().orEmpty(),
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center,
-            )
+
+            if (rules.type == GameType.PASCH && score == 0) {
+                Image(
+                    painter = painterResource(R.drawable.ic_strike_out),
+                    contentDescription = stringResource(R.string.strike_out),
+                    modifier = Modifier.size(26.dp)
+                )
+            } else {
+                Text(
+                    text = score?.toString().orEmpty(),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     }
 }

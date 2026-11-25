@@ -475,7 +475,7 @@ private fun EditDialog(
     }
 
     if(rules.fieldType(row) == FieldType.SPECIAL && rules.type == GameType.PASCH) {
-        texts[0] = rules.maxValue(row, 0)
+        texts[0] = rules.maxValue(row, 0)?.toString().orEmpty()
     }
     
     AlertDialog(

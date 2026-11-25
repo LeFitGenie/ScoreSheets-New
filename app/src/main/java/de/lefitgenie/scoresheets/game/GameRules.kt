@@ -166,7 +166,11 @@ object PaschRules : GameRules {
 
     override fun fieldType(row: Int): FieldType =
     if (paschCategory(row) != PaschCategory.UPPER_BONUS)
-        FieldType.DEFAULT
+        return when (paschCategory(row)) {
+            PaschCategory.FULL_HOUSE, PaschCategory.SMALL_STRAIGHT, PaschCategory.LARGE_STRAIGHT,
+            PaschCategory.FIVE_KIND -> FieldType.SPECIAL
+            else -> FieldType.DEFAULT
+        }        
     else
         FieldType.READONLY
 

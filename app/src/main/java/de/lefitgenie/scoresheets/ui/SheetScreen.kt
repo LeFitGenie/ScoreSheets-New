@@ -353,7 +353,7 @@ private fun RowScope.ScoreCell(
             .weight(1f)
             .fillMaxHeight()
             .border(CellBorder())
-            .then(if (fieldType == FieldType.DEFAULT) Modifier.clickable(onClick = onClick) else Modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))),
+            .then(if (fieldType != FieldType.READONLY) Modifier.clickable(onClick = onClick) else Modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))),
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -460,7 +460,7 @@ private fun EditDialog(
     }
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
-
+    
     // Pro Feld: gültig, wenn leer oder eine Zahl im erlaubten Bereich.
     val valid = rules.fields.indices.map { field ->
         val text = texts[field]
@@ -474,6 +474,10 @@ private fun EditDialog(
         }
     }
 
+    if(rules.fieldType(row) == FieldType.SPECIAL && rules.type == GameType.PASCH) {
+        texts[0] = rules.maxValue(row, 0)
+    }
+    
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
@@ -488,7 +492,8 @@ private fun EditDialog(
                             onValueChange = { texts[field] = sanitize(it, allowNegative) },
                             label = { Text(stringResource(kind.labelRes())) },
                             singleLine = true,
-                            isError = !valid[field],
+                            readOnly = rules.fieldType(row) == FieldType.SPECIAL,
+                            isError = !valid[field],                                
                             supportingText = if (!valid[field] && max != null) {
                                 { Text(stringResource(R.string.out_of_range, if (allowNegative) Int.MIN_VALUE else 0, max)) }
                             } else {

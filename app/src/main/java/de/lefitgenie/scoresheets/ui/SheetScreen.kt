@@ -526,9 +526,7 @@ private fun EditDialog(
                                     texts[0] = rules.maxValue(row, 0)?.toString().orEmpty()
                                 }
                             ) {
-                                Text(
-                                    "${stringResource(R.string.default_value)} (${rules.maxValue(row, 0)})"
-                                )
+                                Text(stringResource(R.string.default_value, rules.maxValue(row, 0) ?: 0))
                             }
                         } else {
                             TextButton(

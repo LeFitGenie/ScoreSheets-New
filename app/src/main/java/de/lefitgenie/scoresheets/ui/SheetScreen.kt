@@ -474,7 +474,7 @@ private fun EditDialog(
         }
     }
 
-    if(rules.fieldType(row) == FieldType.SPECIAL && rules.type == GameType.PASCH) {
+    if(rules.fieldType(row) == FieldType.SPECIAL && rules.type == GameType.PASCH && texts[0].isNullOrEmpty()) {
         texts[0] = rules.maxValue(row, 0)?.toString().orEmpty()
     }
     

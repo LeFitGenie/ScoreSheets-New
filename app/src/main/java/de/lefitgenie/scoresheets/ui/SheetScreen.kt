@@ -200,7 +200,7 @@ private fun SheetTable(
     val playerCount = state.players.size
     val rowCount = rules.rowCount(playerCount, state.entries)
     val totals = List(playerCount) { rules.total(it, playerCount, state.entries) }
-    val winners = leaders(totals, rules.option("lowestWins"), hasEntries = !state.entries.isEmpty)
+    val winners = leaders(totals, rules.optionBoolean("lowestWins"), hasEntries = !state.entries.isEmpty)
     
     val subtotalRows = if (state.type == GameType.PASCH) {
         (PaschCategory.ONES.ordinal..PaschCategory.SIXES.ordinal).toList()
@@ -492,7 +492,7 @@ private fun EditDialog(
             true
         } else {
             val value = text.toIntOrNull()            
-            val min = if (rules.option("allowNegative")) Int.MIN_VALUE else 0
+            val min = if (rules.optionBoolean("allowNegative")) Int.MIN_VALUE else 0
             val max = rules.maxValue(row, field) ?: Int.MAX_VALUE
             value != null && value in min..max && rules.isValid(row, value)
         }
@@ -508,7 +508,7 @@ private fun EditDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 rules.fields.forEachIndexed { field, kind ->
-                    val allowNegative = rules.option("allowNegative")
+                    val allowNegative = rules.optionBoolean("allowNegative")
                     val max = rules.maxValue(row, field)
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         OutlinedTextField(

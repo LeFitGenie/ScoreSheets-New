@@ -23,15 +23,17 @@ enum class OptionType {
 
 data class GameOption(
     val name: String,
-    val type: OptionType,
-    private var storedValue: String,
+    val value: Any,
     val hidden: Boolean = true
 ) {
-    val value: Any
-        get() = when (type) {
-            OptionType.BOOL -> storedValue.toBoolean()
-            OptionType.NUMBER -> storedValue.toIntOrNull() ?: 0
-            OptionType.STRING -> storedValue
+    val type: OptionType
+        get() = when (value) {
+            is Boolean -> OptionType.BOOL
+            is Int -> OptionType.INT
+            is String -> OptionType.STRING
+            else -> throw IllegalArgumentException(
+                "Unsupported option type: ${value::class.simpleName}"
+            )
         }
 }
 
@@ -50,8 +52,8 @@ interface GameRules {
     
     private val defaultOptions: List<GameOption>
         get() = listOf(
-            GameOption("lowestWins", OptionType.BOOL, "false"),
-            GameOption("allowNegative", OptionType.BOOL, "false")
+            GameOption("lowestWins", false),
+            GameOption("allowNegative", false)
         )
 
     val additionalOptions: List<GameOption>
@@ -63,8 +65,17 @@ interface GameRules {
             .values
             .toList()
 
-    fun option(name: String): Any? =
+    private fun option(name: String): Any? =
         options.firstOrNull { it.name == name }?.value 
+        
+    fun optionBoolean(name: String, default: Boolean = false): Boolean =
+        option(name) as? Boolean ?: default
+
+    fun optionInt(name: String, default: Int = 0): Int =
+        option(name) as? Int ?: default
+
+    fun optionString(name: String, default: String = ""): String =
+        option(name) as? String ?: default        
     
     fun rowCount(playerCount: Int, entries: Entries): Int
 
@@ -114,9 +125,8 @@ abstract class OpenEndedRules(override val type: GameType) : GameRules {
 }
 
 object RummyRules : OpenEndedRules(GameType.RUMMY) {    
-    override val additionalOptions = listOf(
-        GameOption("allowNegative", OptionType.BOOL, "true"),
-        GameOption("lowestWins", OptionType.BOOL, "true")
+    override val additionalOptions = listOf(        
+        GameOption("lowestWins", true)
     )
 }
 

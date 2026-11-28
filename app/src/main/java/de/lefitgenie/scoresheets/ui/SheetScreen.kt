@@ -70,6 +70,7 @@ import de.lefitgenie.scoresheets.R
 import de.lefitgenie.scoresheets.ScoreSheetsApp
 import de.lefitgenie.scoresheets.game.Entries
 import de.lefitgenie.scoresheets.game.GameRules
+import de.lefitgenie.scoresheets.game.GameOption
 import de.lefitgenie.scoresheets.game.PaschCategory
 import de.lefitgenie.scoresheets.game.GameType
 import de.lefitgenie.scoresheets.game.FieldType

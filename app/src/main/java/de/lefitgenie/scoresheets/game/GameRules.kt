@@ -17,6 +17,26 @@ enum class FieldType {
     DEFAULT, READONLY, SPECIAL
 }
 
+enum class OptionType {
+    BOOL, NUMBER, STRING
+}
+
+data class GameOption(
+    val name: String,
+    val value: Any,
+    val hidden: Boolean = true
+) {
+    val type: OptionType
+        get() = when (value) {
+            is Boolean -> OptionType.BOOL
+            is Int -> OptionType.NUMBER
+            is String -> OptionType.STRING
+            else -> throw IllegalArgumentException(
+                "Unsupported option type: ${value::class.simpleName}"
+            )
+        }
+}
+
 /**
  * Regeln und Berechnung eines Spiels. Rein funktional und ohne Android-Abhängigkeit,
  * damit alles mit normalen JVM-Tests geprüft werden kann.
@@ -27,12 +47,36 @@ interface GameRules {
     /** Eingabefelder pro Zelle, der Index entspricht [Cell.field]. */
     val fields: List<FieldKind>
 
-    /** Bei Spielen wie Rommé gewinnt, wer am wenigsten Punkte hat. */
-    val lowestWins: Boolean get() = false
-
     /** Gesamtpunktzahl, ab der das Spiel gewonnen ist (falls es so etwas gibt). */
     val targetScore: Int? get() = null
+    
+    private val defaultOptions: List<GameOption>
+        get() = listOf(
+            GameOption("lowestWins", false),
+            GameOption("allowNegative", false)
+        )
 
+    val additionalOptions: List<GameOption>
+        get() = emptyList()
+
+    val options: List<GameOption>
+        get() = (defaultOptions + additionalOptions)
+            .associateBy { it.name }
+            .values
+            .toList()
+
+    private fun option(name: String): Any? =
+        options.firstOrNull { it.name == name }?.value 
+        
+    fun optionBoolean(name: String, default: Boolean = false): Boolean =
+        option(name) as? Boolean ?: default
+
+    fun optionInt(name: String, default: Int = 0): Int =
+        option(name) as? Int ?: default
+
+    fun optionString(name: String, default: String = ""): String =
+        option(name) as? String ?: default        
+    
     fun rowCount(playerCount: Int, entries: Entries): Int
 
     /** Punkte einer Zeile für einen Spieler, oder null solange die Zeile unvollständig ist. */
@@ -62,9 +106,7 @@ interface GameRules {
     }
 
     fun fieldType(row: Int): FieldType = FieldType.DEFAULT
-
-    fun allowNegative(field: Int): Boolean = false
-
+    
     fun isValid(row: Int, value: Int?): Boolean = true
 	
 	fun maxValue(row: Int, field: Int): Int? = null
@@ -82,9 +124,10 @@ abstract class OpenEndedRules(override val type: GameType) : GameRules {
         entries[row, 0, player]
 }
 
-object RummyRules : OpenEndedRules(GameType.RUMMY) {
-    override val lowestWins: Boolean = true
-    override fun allowNegative(field: Int): Boolean = true
+object RummyRules : OpenEndedRules(GameType.RUMMY) {    
+    override val additionalOptions = listOf(        
+        GameOption("lowestWins", true)
+    )
 }
 
 object SixtySixRules : OpenEndedRules(GameType.SIXTY_SIX) {
@@ -94,8 +137,7 @@ object SixtySixRules : OpenEndedRules(GameType.SIXTY_SIX) {
     override fun maxValue(row: Int, field: Int): Int = 3
 }
 
-object FreeRules : OpenEndedRules(GameType.FREE) {
-    override fun allowNegative(field: Int): Boolean = true
+object FreeRules : OpenEndedRules(GameType.FREE) {    
 }
 
 /**

@@ -112,7 +112,7 @@ class GameRulesTest {
         )
         val totals = listOf(RummyRules.total(0, 2, entries), RummyRules.total(1, 2, entries))
         assertEquals(listOf(5, 30), totals)
-        assertEquals(setOf(0), leaders(totals, RummyRules.lowestWins, hasEntries = true))
+        assertEquals(setOf(0), leaders(totals, RummyRules.optionBoolean("lowestWins"), hasEntries = true))
     }
 
     @Test

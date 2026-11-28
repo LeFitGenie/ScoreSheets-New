@@ -29,7 +29,7 @@ data class GameOption(
     val type: OptionType
         get() = when (value) {
             is Boolean -> OptionType.BOOL
-            is Int -> OptionType.INT
+            is Int -> OptionType.NUMBER
             is String -> OptionType.STRING
             else -> throw IllegalArgumentException(
                 "Unsupported option type: ${value::class.simpleName}"
